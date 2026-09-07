@@ -47,12 +47,16 @@ public abstract class HandledScreenMixin {
             return;
         }
 
-        int left = this.x + slot.x;
-        int top = this.y + slot.y;
+        // drawSlot already has the inventory GUI origin applied.
+        // Using this.x + slot.x / this.y + slot.y caused the numbers
+        // to appear off to the side.
+        int left = slot.x;
+        int top = slot.y;
 
-        // Lowest map ID: bright border. Pure rendering; no slot interaction occurs.
+        // Highlight the lowest-ID map.
         if (rank == 1) {
             int border = 0xFFFFE14A;
+
             context.fill(left - 1, top - 1, left + 17, top, border);
             context.fill(left - 1, top + 16, left + 17, top + 17, border);
             context.fill(left - 1, top, left, top + 16, border);
@@ -60,13 +64,29 @@ public abstract class HandledScreenMixin {
         }
 
         String label = Integer.toString(rank);
+
         MinecraftClient client = MinecraftClient.getInstance();
         int textWidth = client.textRenderer.getWidth(label);
 
-        // Small dark badge in the lower-right corner of the map slot.
+        // Draw rank on top of the map, bottom-right of the slot.
         int textX = left + 15 - textWidth;
         int textY = top + 8;
-        context.fill(textX - 1, textY - 1, left + 16, top + 17, 0xB0000000);
-        context.drawText(client.textRenderer, Text.literal(label), textX, textY, 0xFFFFFFFF, true);
+
+        context.fill(
+                textX - 1,
+                textY - 1,
+                left + 16,
+                top + 17,
+                0xB0000000
+        );
+
+        context.drawText(
+                client.textRenderer,
+                Text.literal(label),
+                textX,
+                textY,
+                0xFFFFFFFF,
+                true
+        );
     }
 }

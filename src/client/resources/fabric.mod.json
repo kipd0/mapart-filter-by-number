@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "map_rank_overlay",
+  "version": "${version}",
+  "name": "Map Rank Overlay",
+  "description": "Visual-only filled map ID ranking overlay. Never moves or clicks inventory items.",
+  "authors": ["ChatGPT + user"],
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.maprankoverlay.MapRankOverlayClient"
+    ]
+  },
+  "mixins": [
+    "map_rank_overlay.client.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.18.1",
+    "minecraft": "=1.21.11",
+    "java": ">=21",
+    "fabric-api": "*"
+  }
+}
